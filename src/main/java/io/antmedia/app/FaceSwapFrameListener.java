@@ -18,7 +18,6 @@ import java.nio.ByteBuffer;
 import java.util.Base64;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-//import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -70,6 +69,8 @@ public class FaceSwapFrameListener implements IFrameListener{
 		width=videoFrame.width();
 		height=videoFrame.height();
 		format=videoFrame.format();
+		logger.info("format is"+format);
+
 		if(format==0){
             int size = width * height * 3 / 2;
 			inputData=videoFrame.data(0);
@@ -100,10 +101,10 @@ public class FaceSwapFrameListener implements IFrameListener{
 				logger.error(e.toString());
 				return videoFrame;
 			}
-
+			logger.info("http://192.168.145.196:5000/swap_faces");
 
 			request = HttpRequest.newBuilder()
-					.uri(URI.create("http://192.168.149.195:5000"))
+					.uri(URI.create("http://192.168.145.196:5000/swap_faces"))
 					.header("Content-Type", "application/json")
 					.POST(HttpRequest.BodyPublishers.ofString(requestBody))
 					.build();
